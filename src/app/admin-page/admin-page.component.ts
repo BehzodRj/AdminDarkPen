@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as Chart from 'chart.js';
-import * as moment from 'moment';
+import * as $ from 'jquery'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-page',
@@ -12,7 +13,7 @@ export class AdminPageComponent implements OnInit {
   chartSalseRevenue: any;
   dateInline: any
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
     setTimeout(() => {
@@ -71,6 +72,24 @@ export class AdminPageComponent implements OnInit {
       }
     });
 
+  }
+
+  sideBarToggle() {
+    document.getElementById("content")?.classList.toggle('open')
+    document.getElementById("sidebar")?.classList.toggle('open')
+  }
+
+  backToTop() {
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+  }
+
+  logOut() {
+    localStorage.clear()
+    this.router.navigate(['/'])
   }
 
 
