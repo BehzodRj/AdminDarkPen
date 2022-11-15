@@ -22,12 +22,13 @@
           </div>
         </div>
         <div class="ms-3">
-          <h6 class="mb-0">Jhon Doe</h6>
+          <h6 class="mb-0">{{ userData }}</h6>
           <span>Admin</span>
         </div>
       </div>
       <div class="navbar-nav w-100">
-        <span style="cursor: pointer;" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</span>
+        <span style="cursor: pointer;" class="nav-item nav-link active"><i
+            class="fa fa-tachometer-alt me-2"></i>Dashboard</span>
 
         <!-- <div class="nav-item dropdown">
           <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
@@ -139,7 +140,7 @@
         <div class="nav-item dropdown">
           <a style="cursor: pointer;" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
             <img class="rounded-circle me-lg-2" src="./assets/img/user.jpg" alt="" style="width: 40px; height: 40px;">
-            <span class="d-none d-lg-inline-flex">John Doe</span>
+            <span class="d-none d-lg-inline-flex">{{ userData }}</span>
           </a>
           <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
             <a style="cursor: pointer;" class="dropdown-item" (click)="logOut()">Log Out</a>
@@ -211,10 +212,10 @@
         <div class="col-sm-12 col-xl-6">
           <div class="bg-secondary text-center rounded p-4">
             <div class="d-flex align-items-center justify-content-between mb-4">
-              <h6 class="mb-0">Salse & Revenue</h6>
+              <h6 class="mb-0">Sales & Revenue</h6>
               <span class="span">Show All</span>
             </div>
-            <canvas id="salseRevenue">{{ chartSalseRevenue }}</canvas>
+            <canvas id="salesRevenue">{{ chartSalesRevenue }}</canvas>
           </div>
         </div>
       </div>
@@ -226,7 +227,7 @@
     <div class="container-fluid pt-4 px-4">
       <div class="bg-secondary text-center rounded p-4">
         <div class="d-flex align-items-center justify-content-between mb-4">
-          <h6 class="mb-0">Recent Salse</h6>
+          <h6 class="mb-0">Recent Sales</h6>
           <span class="span">Show All</span>
         </div>
         <div class="table-responsive">
@@ -368,51 +369,15 @@
               <span class="span">Show All</span>
             </div>
             <div class="d-flex mb-2">
-              <input class="form-control bg-dark border-0" type="text" placeholder="Enter task">
-              <button type="button" class="btn btn-primary ms-2">Add</button>
+              <input class="form-control bg-dark border-0" type="text" placeholder="Enter task" #todoValue>
+              <button type="button" class="btn btn-primary ms-2" (click)="addTodo(todoValue)">Add</button>
             </div>
-            <div class="d-flex align-items-center border-bottom py-2">
-              <input class="form-check-input m-0" type="checkbox">
+            <div class="d-flex align-items-center border-bottom py-2" *ngFor="let todo of todoData; let idx = index">
+              <input class="form-check-input m-0" type="checkbox" (change)="getcheck($event, todo.name)">
               <div class="w-100 ms-3">
                 <div class="d-flex w-100 align-items-center justify-content-between">
-                  <span>Short task goes here...</span>
-                  <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                </div>
-              </div>
-            </div>
-            <div class="d-flex align-items-center border-bottom py-2">
-              <input class="form-check-input m-0" type="checkbox">
-              <div class="w-100 ms-3">
-                <div class="d-flex w-100 align-items-center justify-content-between">
-                  <span>Short task goes here...</span>
-                  <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                </div>
-              </div>
-            </div>
-            <div class="d-flex align-items-center border-bottom py-2">
-              <input class="form-check-input m-0" type="checkbox" checked>
-              <div class="w-100 ms-3">
-                <div class="d-flex w-100 align-items-center justify-content-between">
-                  <span><del>Short task goes here...</del></span>
-                  <button class="btn btn-sm text-primary"><i class="fa fa-times"></i></button>
-                </div>
-              </div>
-            </div>
-            <div class="d-flex align-items-center border-bottom py-2">
-              <input class="form-check-input m-0" type="checkbox">
-              <div class="w-100 ms-3">
-                <div class="d-flex w-100 align-items-center justify-content-between">
-                  <span>Short task goes here...</span>
-                  <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                </div>
-              </div>
-            </div>
-            <div class="d-flex align-items-center pt-2">
-              <input class="form-check-input m-0" type="checkbox">
-              <div class="w-100 ms-3">
-                <div class="d-flex w-100 align-items-center justify-content-between">
-                  <span>Short task goes here...</span>
-                  <button class="btn btn-sm"><i class="fa fa-times"></i></button>
+                  <span [ngStyle]="{'text-decoration': todo.status ? 'line-through' : 'none'}">{{ todo.name }}</span>
+                  <button class="btn btn-sm" (click)="deleteTodo(todo.status, idx)"><i class="fa fa-times"></i></button>
                 </div>
               </div>
             </div>
@@ -444,5 +409,6 @@
 
 
   <!-- Back to Top -->
-  <span class="btn btn-lg btn-primary btn-lg-square back-to-top" (click)="backToTop()"><i class="bi bi-arrow-up"></i></span>
+  <span class="btn btn-lg btn-primary btn-lg-square back-to-top" (click)="backToTop()"><i
+      class="bi bi-arrow-up"></i></span>
 </div>

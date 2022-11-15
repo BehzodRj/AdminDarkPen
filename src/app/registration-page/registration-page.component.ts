@@ -34,10 +34,10 @@ export class RegistrationPageComponent implements OnInit {
 
   signIn() {
     const registrationFormData = { ...this.registrationForm.value }
-    this.usersData.push({ 'username': registrationFormData.username, 'email': registrationFormData.email })
+    this.usersData.push({ 'username': registrationFormData.username, 'email': registrationFormData.email, 'password': registrationFormData.password })
     sessionStorage.setItem('users', JSON.stringify(this.usersData))
 
-    localStorage.setItem('access_token', registrationFormData.email)
+    localStorage.setItem('access_token', registrationFormData.username)
     this.router.navigate(['/admin'])
   }
 

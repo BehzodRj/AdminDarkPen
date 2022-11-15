@@ -27,12 +27,16 @@ export class AuthPageComponent implements OnInit {
   logIn() {
     const authFormData = { ...this.authForm.value }
     let users: any = sessionStorage.getItem('users')
-
-    if(JSON.parse(users).filter((res: any) => res.email == authFormData.email).length > 0) {
-      this.router.navigate(['/admin'])
-      localStorage.setItem('access_token', authFormData.email)
+    let verifyUsers = JSON.parse(users).filter((res: any) => res.email == authFormData.email)[0]
+    if (sessionStorage.getItem('users')) {
+      if ( verifyUsers?.email == authFormData.email && verifyUsers?.password == authFormData.password ) {
+        this.router.navigate(['/admin'])
+        localStorage.setItem('access_token', verifyUsers.username)
+      } else {
+          alert('Лоигин или пароль не правильный')
+      }
     } else {
-      alert('Лоигин или пароль не правильный')
+        alert('Такого пользователя нет')
     }
   }
 

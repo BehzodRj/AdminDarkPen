@@ -10,8 +10,10 @@ import { Router } from '@angular/router';
 })
 export class AdminPageComponent implements OnInit {
   chartWorldWideSales: any;
-  chartSalseRevenue: any;
+  chartSalesRevenue: any;
   dateInline: any
+  userData: any = localStorage.getItem('access_token')
+  todoData: any = []
 
   constructor(private router: Router) { }
 
@@ -49,7 +51,7 @@ export class AdminPageComponent implements OnInit {
     });
 
     // Salse Revenue Chart
-    this.chartSalseRevenue = new Chart('salseRevenue', {
+    this.chartSalesRevenue = new Chart('salesRevenue', {
       type: "line",
       data: {
         labels: ["2016", "2017", "2018", "2019", "2020", "2021", "2022"],
@@ -79,17 +81,41 @@ export class AdminPageComponent implements OnInit {
     document.getElementById("sidebar")?.classList.toggle('open')
   }
 
+  addTodo(todoValue: any) {
+    if (todoValue.value == '') {
+      alert('Поля не может быть пустым')
+    } else if (this.todoData.filter((res: any) => res.name == todoValue.value)[0]?.name == todoValue.value) {
+      alert('Этот задача у вас есть')
+    } else {
+      this.todoData.push({ "name": todoValue.value, "status": false })
+      todoValue.value = ''
+    }
+
+  }
+
+  getcheck(event: any, name: number) {
+    this.todoData.filter((res: any) => res.name == name)[0].status = event.target.checked
+  }
+
+  deleteTodo(status: boolean, id: number) {
+    if (status == false) {
+      alert('Поставьте галочку')
+    } else {
+      this.todoData.splice(id, 1)
+    }
+  }
+
+  logOut() {
+    localStorage.clear()
+    this.router.navigate(['/'])
+  }
+
   backToTop() {
     window.scroll({
       top: 0,
       left: 0,
       behavior: 'smooth'
     });
-  }
-
-  logOut() {
-    localStorage.clear()
-    this.router.navigate(['/'])
   }
 
 
